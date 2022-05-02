@@ -1,11 +1,4 @@
-﻿namespace Spm.Web.Client.Abstraction;
-
-/// <summary>
-/// Represents identifier for package.
-/// </summary>
-/// <param name="Name">The package name.</param>
-/// <param name="Version">The project version.</param>
-public sealed record PackageId(string Name, Version Version);
+﻿namespace Spm.Core.Abstraction;
 
 /// <summary>
 /// Represents the package meta information.
@@ -15,17 +8,17 @@ public sealed record PackageId(string Name, Version Version);
 public sealed record PackageInfo(PackageId Id, string Hash)
 {
     /// <summary>
-    /// The package description
+    /// The package description.
     /// </summary>
     public string Description { get; init; }
 
     /// <summary>
-    /// The package labels
+    /// The package labels.
     /// </summary>
     public IEnumerable<string> Labels { get; init; }
 
     /// <summary>
-    /// The additional information about the package
+    /// The additional information about the package.
     /// </summary>
     public IReadOnlyDictionary<string, string> Tags { get; init; }
 }

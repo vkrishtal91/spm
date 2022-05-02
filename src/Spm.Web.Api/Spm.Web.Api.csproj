@@ -2,16 +2,24 @@
 
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
-        <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
     </PropertyGroup>
 
     <ItemGroup>
-        <Protobuf Include="..\Spm.Web.Common\Protos\spm.proto" GrpcServices="Server"/>
+        <Protobuf Include="..\Spm.Web.Common\Protos\spm.proto" GrpcServices="Server" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Grpc.AspNetCore" Version="2.40.0"/>
+        <PackageReference Include="Grpc.AspNetCore" Version="2.40.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Spm.Data.Index.Mongo\Spm.Data.Index.Mongo.csproj" />
+      <ProjectReference Include="..\Spm.Data.Index.Postgres\Spm.Data.Index.Postgres.csproj" />
+      <ProjectReference Include="..\Spm.Data.Storage.Fs\Spm.Data.Storage.Fs.csproj" />
+      <ProjectReference Include="..\Spm.Data.Storage.S3\Spm.Data.Storage.S3.csproj" />
+      <ProjectReference Include="..\Spm.Core.Abstraction\Spm.Core.Abstraction.csproj" />
+      <ProjectReference Include="..\Spm.Web.Common\Spm.Web.Common.csproj" />
     </ItemGroup>
 
 </Project>

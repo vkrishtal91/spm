@@ -9,4 +9,9 @@
       <ProjectReference Include="..\Spm.Core.Abstraction\Spm.Core.Abstraction.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="FluentValidation" Version="11.0.0" />
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
+    </ItemGroup>
+
 </Project>
