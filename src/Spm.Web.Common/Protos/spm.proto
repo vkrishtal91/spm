@@ -17,6 +17,15 @@ message PackageId {
   int32 revision = 5;
 }
 
+message PackageInfo {
+  PackageId id = 1;
+  string description = 2;
+  int64 created = 3;
+  repeated string tags = 4;
+  string link = 5;
+  map<string, string> extra = 6;
+}
+
 message PullPackageRequest {
   PackageId Id = 1;
 }
@@ -27,14 +36,11 @@ message PullPackageResponse {
 
 message PushPackageRequest {
   bytes data = 1;
-  PackageId id = 2;
 }
 
 message PushPackageResponse {
-  oneof result {
-    bool success = 1;
-    string error = 2;
-  }
+  bool success = 1;
+  repeated string errors = 2;
 }
 
 message DeletePackageRequest {
@@ -55,18 +61,18 @@ message GetPackagesRequest {
   IntFilter patch = 4;
   IntFilter build = 5;
   StringFilter hash = 6;
-  repeated string tags = 7;
-  map<string, StringFilter> extra = 8;
+  repeated string labels = 7;
+  map<string, StringFilter> tags = 8;
   Sorting sorting = 9;
+  int32 pageNumber = 10;
+  int32 pageSize = 11;
 }
 
 message GetPackageResponse {
-  PackageId id = 1;
-  int64 created = 2;
-  repeated string tags = 3;
-  string link = 4;
-  string description = 5;
-  map<string, string> extra = 6;
+  repeated PackageInfo packages = 1;
+  int32 count = 2;
+  int32 total = 3;
+  int32 page = 4;
 }
 
 // compare operator for filtering

@@ -18,5 +18,9 @@
     <ItemGroup>
         <Protobuf Include="..\Spm.Web.Common\Protos\spm.proto" GrpcServices="Client" />
     </ItemGroup>
+    
+    <ItemGroup>
+      <ProjectReference Include="..\Spm.Web.Client.Abstraction\Spm.Web.Client.Abstraction.csproj" />
+    </ItemGroup>
 
 </Project>
