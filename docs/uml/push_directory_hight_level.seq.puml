@@ -1,0 +1,87 @@
+﻿@startuml
+
+actor user
+participant spt
+participant spm
+database file_storage
+database index_db
+
+group direct uploading strategy
+    user -> spt: push directory
+    activate spt
+    spt -> spm: get strategy
+    activate spm
+    hnote over spm
+          use configurations
+        to get current strategy
+    endhnote
+    spt <- spm: return strategy
+    deactivate spm
+    rnote over spt
+        1. create content info tree 
+        2. calculate content hash package
+        3. pack directory to temp archive
+        4. calculate archive hash
+        5. create package manifest 
+        6. add user part to manifest
+    endrnote
+    spt -> spm: get link to upload archive
+    activate spm
+    spm -> file_storage: get link to upload package
+    activate file_storage
+    hnote over file_storage
+        create temp link 
+    endhnote
+    spm <- file_storage: return link
+    deactivate file_storage
+    spt <- spm: return link to upload package
+    deactivate spm
+    spt -> file_storage: upload package
+    spt -> spm: send package manifest
+    activate spm
+    spm -> index_db: write index data
+    spt <- spm: return status
+    deactivate spm
+    hnote over spt
+        remove local temp archive 
+    endhnote
+    user <- spt: Print information about package 
+    deactivate spt
+end group
+
+group end-to-end uploading strategy
+    user -> spt: push directory
+    activate spt
+    spt -> spm: get strategy
+    activate spm
+    hnote over spm
+          use configurations
+        to get current strategy
+    endhnote
+    spt <- spm: return strategy
+    deactivate spm
+    hnote over spt
+        pack directory to temp archive 
+    endhnote
+        spt -> spm: upload the archive \n with user package manifest
+    activate spm
+    rnote over spm
+        1. unpack package
+        2. validate package
+        3. create content info tree 
+        4. calculate content hash package
+        5. create package manifest
+        6. add user part to manifest
+    endrnote
+    spm -> file_storage: upload package
+    spm -> index_db: write index data
+    spt <- spm: return  about package
+    deactivate spm
+    hnote over spt
+        remove local temp archive 
+    endhnote
+    user <- spt: Print information about package 
+    deactivate spt
+end group
+
+@enduml
