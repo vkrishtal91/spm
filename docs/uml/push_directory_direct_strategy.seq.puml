@@ -1,0 +1,84 @@
+﻿@startuml
+
+autonumber
+
+title push package sequence diagram \n (direct upload strategy) 
+
+actor user
+
+box SPT #lightcyan
+    participant cli
+    participant manifest_builder
+    participant push_command
+    participant hash_calculator
+    participant package_compressor
+end box
+
+box SPM #lightblue
+    participant service
+    database db
+    database storage
+end box
+
+user -> cli: push directory
+activate cli
+cli -> push_command: push directory
+activate push_command
+push_command -> service: get uploading strategy
+activate service
+service --> service: use configurations\nto get strategy
+push_command <- service: return uploading strategy
+deactivate service
+create manifest_builder
+push_command -> manifest_builder: create manifest builder
+push_command -> manifest_builder: set user package information
+ 
+push_command -> hash_calculator: get content hash
+activate hash_calculator
+hash_calculator --> hash_calculator: calculate common hash\nfor every content item
+push_command <- hash_calculator: return content hash
+deactivate hash_calculator
+push_command -> manifest_builder: set content hash
+
+push_command -> package_compressor: compress directory
+activate package_compressor
+package_compressor --> package_compressor: create archive
+push_command <- package_compressor: return path to archive
+deactivate package_compressor
+push_command -> hash_calculator: get archive hash
+activate hash_calculator
+hash_calculator --> hash_calculator: calculate hash of archive
+push_command <- hash_calculator: return package hash
+deactivate hash_calculator
+push_command -> manifest_builder: set package hash
+push_command -> manifest_builder: build manifest
+activate manifest_builder
+manifest_builder --> manifest_builder: validate and build manifest
+push_command <- manifest_builder: return package manifest
+deactivate manifest_builder
+
+push_command -> service: get link to upload archive
+activate service
+service -> storage: get temp link to upload file
+activate storage
+storage --> storage: create temp link
+service <- storage: return temp link
+deactivate storage
+push_command <- service: return temp link
+deactivate service
+push_command -> storage: upload archive to storage
+deactivate storage
+
+
+push_command -> service: send package manifest
+activate service
+service -> db: write package manifest  
+push_command <- service: return success status
+deactivate service
+push_command --> push_command: remove local temp archive
+cli <- push_command: return package manifest
+deactivate push_command
+user <- cli: print manifest
+deactivate cli
+
+@enduml
