@@ -9,19 +9,21 @@ using Spm.Core.Compression.Configurations;
 namespace Spm.Core.Compression;
 
 /// <summary>
-/// Represents 
+/// Represents zip compressor.
 /// </summary>
 internal class PackageZipCompressor : IPackageCompressor
 {
     // the json serialization options
-    private static readonly JsonSerializerOptions JsonSerializerOptions = new()
+    private static readonly JsonSerializerOptions JSON_SERIALIZER_OPTIONS = new()
     {
         WriteIndented = true,
-        Converters = {new JsonStringEnumConverter()}
+        Converters = { new JsonStringEnumConverter() }
     };
 
     // the package validator
     private readonly IPackageInfoValidator _validator;
+
+    // the configs
     private readonly IOptions<CompressionConfigurations> _config;
 
     /// <summary>
@@ -54,15 +56,13 @@ internal class PackageZipCompressor : IPackageCompressor
         // validate packageInfo information
         await _validator.Validate(packageInfo, cancellationToken);
 
-        // determine file to future package
-        // the user specified path can be null
-        // and we use the name of source directory to name package in this case
-        var package = string.IsNullOrWhiteSpace(target)
-            ? $"{Path.GetDirectoryName(source)}/{packageInfo.GetFileName()}"
-            : $"{target}/{packageInfo.GetFileName()}";
+        // get full path to target package
+        var package = Path.GetFullPath(string.IsNullOrWhiteSpace(target)
+            ? Path.Join(Path.GetDirectoryName(source), packageInfo.ToString())
+            : Path.Join(target, packageInfo.ToString())
+        );
 
-        // determine path to temp packageInfo file (dont forget to delete it after pack)
-        var packageInfoFile = $"{source}/{Configs.packageInfoFileName}";
+        var packageInfoFile = $"{source}/spm.manifest.json";
 
         // create package
         await Pack(source, packageInfo, packageInfoFile, package, cancellationToken);
@@ -72,17 +72,16 @@ internal class PackageZipCompressor : IPackageCompressor
     /// <summary>
     /// Packs the directory as package.
     /// </summary>
-    private async Task Pack(
-        string source,
-        PackageInfo packageInfo,
-        string packageInfoFile,
-        string package,
-        CancellationToken token)
+    private async Task Pack(string source,
+                            PackageInfo packageInfo,
+                            string packageInfoFile,
+                            string package,
+                            CancellationToken token)
     {
         try
         {
             await CreateManifest(packageInfo, packageInfoFile, token);
-            ZipFile.CreateFromDirectory(source, package);
+            ZipFile.CreateFromDirectory(source, package, _config.Value.CompressionLevel, false);
         }
         finally
         {
@@ -99,7 +98,7 @@ internal class PackageZipCompressor : IPackageCompressor
     /// <param name="cancellationToken">The cancellation token.</param>
     private async Task CreateManifest(PackageInfo packageInfo, string jsonFile, CancellationToken cancellationToken)
     {
-        var json = JsonSerializer.Serialize(packageInfo, JsonSerializerOptions);
+        var json = JsonSerializer.Serialize(packageInfo, JSON_SERIALIZER_OPTIONS);
         await File.WriteAllTextAsync(jsonFile, json, cancellationToken);
     }
 }

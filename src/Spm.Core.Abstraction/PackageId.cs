@@ -10,4 +10,9 @@
 /// </remarks>
 /// <param name="Name">The package name.</param>
 /// <param name="Version">The project version.</param>
-public sealed record PackageId(string Name, Version Version);
+public sealed record PackageId(string Name, Version Version)
+{
+    /// <summary>Returns a string that represents the current object.</summary>
+    /// <returns>A string that represents the current object.</returns>
+    public override string ToString() => $"{Name}-{Version}";
+}

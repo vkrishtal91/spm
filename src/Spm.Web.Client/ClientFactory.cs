@@ -1,7 +1,7 @@
 ﻿using Grpc.Net.Client;
 using Spm.Web.Api;
 
-namespace Spm.Web.Client.Grpc;
+namespace Spm.Web.Client;
 
 public class ClientFactory
 {

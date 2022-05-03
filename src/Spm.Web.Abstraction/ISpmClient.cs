@@ -1,4 +1,4 @@
-﻿namespace Spm.Web.Client.Abstraction;
+﻿namespace Spm.Web.Abstraction;
 
 public interface ISpmClient
 {

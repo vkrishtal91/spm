@@ -10,16 +10,22 @@ namespace Spm.Core.Compression;
 
 public static class Ioc
 {
+    /// <summary>
+    /// Registers SPM package compressor to your IoC.
+    /// </summary>
+    /// <param name="services">The IoC builder.</param>
+    /// <param name="configurations">The compressor configurations.</param>
+    /// <returns>The Ioc builder.</returns>
     public static IServiceCollection AddCompressor(
         this IServiceCollection services,
         Action<CompressionConfigurations> configurations = null)
     {
         return services
-            .RegisterOptions(configurations)
-            .RegisterValidators()
-            .RegisterCompressor()
-            .RegisterDecompressor()
-            .RegisterHashCalculator();
+               .RegisterOptions(configurations)
+               .RegisterValidators()
+               .RegisterCompressor()
+               .RegisterDecompressor()
+               .RegisterHashCalculator();
     }
 
     private static IServiceCollection RegisterOptions(this IServiceCollection services, Action<CompressionConfigurations> configurations)
@@ -36,8 +42,8 @@ public static class Ioc
     private static IServiceCollection RegisterValidators(this IServiceCollection services)
     {
         return services
-            .AddPackageInfoValidator()
-            .AddTransient<IValidator<CompressionConfigurations>, CompressionConfigurationsValidator>();
+               .AddPackageInfoValidator()
+               .AddTransient<IValidator<CompressionConfigurations>, CompressionConfigurationsValidator>();
     }
 
     private static IServiceCollection RegisterCompressor(this IServiceCollection services)

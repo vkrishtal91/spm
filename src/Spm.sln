@@ -2,7 +2,7 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spm.Web.Api", "Spm.Web.Api\Spm.Web.Api.csproj", "{81AF4F9A-DED0-4CFA-9597-22EE88ADCFA4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spm.Web.Client.Grpc", "Spm.Web.Client.Grpc\Spm.Web.Client.Grpc.csproj", "{7720F9F5-6B88-4A2D-91B4-11D4E8F74F67}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spm.Web.Client", "Spm.Web.Client\Spm.Web.Client.csproj", "{7720F9F5-6B88-4A2D-91B4-11D4E8F74F67}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spm.Core", "Spm.Core\Spm.Core.csproj", "{001A1B10-A4DC-4E9F-BAF8-2F60FDAE4EDB}"
 EndProject
@@ -28,7 +28,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{643AC05A-E
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spm.Web.Common", "Spm.Web.Common\Spm.Web.Common.csproj", "{8FAB90CA-0EE6-4317-875B-3466E6FE8619}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spm.Web.Client.Abstraction", "Spm.Web.Client.Abstraction\Spm.Web.Client.Abstraction.csproj", "{76D30CD6-F693-4760-B83B-AE2E23A4FFBF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spm.Web.Abstraction", "Spm.Web.Abstraction\Spm.Web.Abstraction.csproj", "{76D30CD6-F693-4760-B83B-AE2E23A4FFBF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spm.Core.Abstraction", "Spm.Core.Abstraction\Spm.Core.Abstraction.csproj", "{C70F9F06-0FBE-4ED6-8E43-902D12076D3B}"
 EndProject

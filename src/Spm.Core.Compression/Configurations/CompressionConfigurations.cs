@@ -1,4 +1,5 @@
 ﻿using System.IO.Compression;
+using Spm.Core.Compression.Abstraction;
 
 namespace Spm.Core.Compression.Configurations;
 

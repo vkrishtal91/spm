@@ -1,4 +1,4 @@
-﻿namespace Spm.Core.Compression.Configurations;
+﻿namespace Spm.Core.Compression.Abstraction;
 
 public enum CompressionAlgorithm
 {
